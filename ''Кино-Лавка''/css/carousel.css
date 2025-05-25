@@ -1,0 +1,81 @@
+/* Контейнер карусели */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    perspective: 1000px;
+}
+
+/* Дорожка карусели */
+.carousel-track {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    transition: transform 0.5s ease;
+    will-change: transform;
+    padding: 0 20%;
+}
+
+/* Карточки фильмов */
+.movie-card {
+    flex: 0 0 auto;
+    width: 120px;
+    height: 180px;
+    margin: 0 15px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.movie-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Выбранная карточка */
+.movie-card.selected {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 3px #4CAF50, 0 8px 25px rgba(0,0,0,0.5);
+    z-index: 10;
+}
+
+/* Кнопки навигации */
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: rgba(0,0,0,0.5);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 20;
+}
+
+.carousel-nav.prev { left: 10px; }
+.carousel-nav.next { right: 10px; }
+
+/* Информация о фильме */
+.movie-info {
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: white;
+    text-shadow: 0 0 5px black;
+    z-index: 5;
+}
+
+/* Запрет масштабирования */
+body {
+    touch-action: pan-x pan-y;
+    user-zoom: fixed;
+}
