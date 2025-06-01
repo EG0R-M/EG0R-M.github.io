@@ -5,6 +5,7 @@
     width: 100%;
     height: 100%;
     perspective: 1000px;
+    margin-top: -10px;
 }
 
 /* Дорожка карусели */
@@ -22,8 +23,9 @@
     flex: 0 0 auto;
     width: 120px;
     height: 180px;
-    margin: 0 15px;
+    margin: 0 30px;
     position: relative;
+    z-index: 1;
     cursor: pointer;
     transition: all 0.3s ease;
     border-radius: 8px;
@@ -39,9 +41,38 @@
 
 /* Выбранная карточка */
 .movie-card.selected {
+    z-index: 3;
     transform: scale(1.2);
     box-shadow: 0 0 0 3px #4CAF50, 0 8px 25px rgba(0,0,0,0.5);
+}
+
+.disk {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-image: url('../images/disk.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
     z-index: 10;
+    pointer-events: none;
+    display: none;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+.disk img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.disk.visible {
+    display: block;
+    opacity: 1;
+}
+
+.carousel-frame {
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 /* Кнопки навигации */
