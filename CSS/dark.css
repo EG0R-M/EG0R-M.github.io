@@ -1,10 +1,12 @@
 /* Основные слои */
 body, html {
+    font-family: 'Pixelify Sans', sans-serif;
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
+    background-color: #0e0e39;
 }
 
 .image-layer {
@@ -23,11 +25,13 @@ body, html {
     background-image: url('../images/2.jpg');
     z-index: 1;
     filter: brightness(0.8);
+        transform: scale(0.85)
 }
 
 #table-layer {
     background-image: url('../images/2.2.png');
     z-index: 2;
+        transform: scale(0.85)
 }
 
 #seller-container {
@@ -37,6 +41,7 @@ body, html {
     transform: translateX(-50%);
     width: 30%;
     height: 40%;
+    print-color-adjust: Hds;
     background-image: url('../images/seller_night.png');
     background-size: contain;
     background-repeat: no-repeat;
@@ -48,15 +53,16 @@ body, html {
 .carousel-frame {
     position: fixed;
     top: 50%;
-    left: 50%;
+    left: 40%; /* Сдвиг влево */
     transform: translate(-50%, -50%);
     width: 70vw;
     height: 220px;
-    background: rgba(173, 216, 230, 0.7); /* 70% прозрачности */
+    background: rgba(173, 216, 230, 0.7);
     border: 3px dashed #00008b;
     border-radius: 15px;
     overflow: hidden;
     z-index: 5;
+    border-style: dotted; /* Квадратный пунктир */
 }
 
 /* Кнопка темы */

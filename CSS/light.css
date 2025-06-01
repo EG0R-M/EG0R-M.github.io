@@ -1,10 +1,12 @@
 /* Основные слои */
 body, html {
+    font-family: 'Pixelify Sans', sans-serif;
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
+    background-color: #8B0000;
 }
 
 .image-layer {
@@ -23,11 +25,13 @@ body, html {
     background-image: url('../images/1.jpg');
     z-index: 1;
     filter: brightness(1.1);
+    transform: scale(0.85)
 }
 
 #table-layer {
     background-image: url('../images/1.2.png');
     z-index: 2;
+    transform: scale(0.85)
 }
 
 #seller-container {
@@ -48,7 +52,7 @@ body, html {
 #cat {
     position: fixed;
     bottom: 10%;
-    left: 15%;
+    left: 20%;
     width: 150px;
     height: 150px;
     background-image: url('../images/cat_day.gif');
@@ -62,15 +66,16 @@ body, html {
 .carousel-frame {
     position: fixed;
     top: 50%;
-    left: 50%;
+    left: 40%; /* Сдвиг влево */
     transform: translate(-50%, -50%);
-    width: 70vw;
-    height: 220px;
-    background: rgba(255, 255, 255, 0.9); /* 70% прозрачности */
+    width: 40vw;
+    height: 500px;
+    background: rgba(255, 255, 255, 0.9);
     border: 3px dashed #800020;
     border-radius: 15px;
     overflow: hidden;
     z-index: 5;
+    border-style: dotted; /* Квадратный пунктир */
 }
 
 /* Кнопка темы */

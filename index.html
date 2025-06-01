@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Кинолавка</title>
-    <link rel="stylesheet" href="css/light.css" id="light-theme">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">    <link rel="stylesheet" href="css/light.css" id="light-theme">
     <link rel="stylesheet" href="css/dark.css" id="dark-theme" disabled>
     <link rel="stylesheet" href="css/carousel.css">
     <script src="js/movies.js" defer></script>
@@ -20,18 +22,19 @@
     
     <!-- Карусель в рамке -->
     <div class="carousel-frame">
-        <div class="carousel-container">
-            <div class="carousel-track" id="carousel-track"></div>
-            <button class="carousel-nav prev">❮</button>
-            <button class="carousel-nav next">❯</button>
-        </div>
-    </div>
-    
-    <!-- Информация о фильме -->
-    <div class="movie-info">
+    <div class="carousel-container">
         <h2 id="movie-title">Выберите фильм</h2>
+        <div class="carousel-track" id="carousel-track"></div>
+        <button class="carousel-nav prev">❮</button>
+        <button class="carousel-nav next">❯</button>
+    </div>
+    <div class="movie-info">
         <div id="movie-details"></div>
     </div>
+</div>
+    
+    <!-- Информация о фильме -->
+    
     
     <!-- Кнопка темы -->
     <button id="theme-toggle">🌓</button>
