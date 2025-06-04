@@ -125,12 +125,18 @@ document.addEventListener('DOMContentLoaded', () => {
             lightTheme.disabled = true;
             darkTheme.disabled = false;
             if (themeToggle) themeToggle.innerHTML = '<img src="images/icons/theme_toggle.png" alt="🌙">';
-            if (cat) cat.style.display = 'none';
+            if (cat) {
+                cat.style.display = 'block';
+                cat.style.backgroundImage = "url('images/background/cat_night.gif')";
+            }
         } else {
             lightTheme.disabled = false;
             darkTheme.disabled = true;
             if (themeToggle) themeToggle.innerHTML = '<img src="images/icons/theme_toggle.png" alt="☀️">';
-            if (cat) cat.style.display = 'block';
+            if (cat) {
+                cat.style.display = 'block';
+                cat.style.backgroundImage = "url('images/background/cat_day.gif')";
+            }
         }
     
         if (typeof updateSellerTheme === 'function') {
@@ -283,11 +289,15 @@ document.addEventListener('DOMContentLoaded', () => {
             cards[index].classList.add('selected');
             
             const movie = MovieType[index];
-            movieTitle.textContent = movie.name;
-            movieDetails.innerHTML = `
-                <p>${movie.year} · ${movie.director}</p>
-                <p>${movie.genres.join(', ')}</p>
-            `;
+            document.getElementById('movie-title-container').textContent = movie.name;
+            
+            // Обновляем детали только для десктопов
+            if (window.innerWidth >= 768) {
+                document.getElementById('movie-details').innerHTML = `
+                    <p>${movie.year} · ${movie.director}</p>
+                    <p>${movie.genres.join(', ')}</p>
+                `;
+            }
             
             updateDiskPosition();
             centerSelectedCard();
@@ -300,29 +310,57 @@ document.addEventListener('DOMContentLoaded', () => {
         
             const container = document.querySelector('.carousel-container');
             const containerRect = container.getBoundingClientRect();
-            const centerY = containerRect.height / 2; // Центр контейнера по Y
-        
-            // Финальная позиция диска (100px выше центра)
-            const finalTop = centerY - 100 - 50; // 50px = половина высоты диска
-        
-            if (isInitial) {
-                // Первое появление — сразу в финальной позиции
-                disk.style.transition = 'none';
-                disk.style.left = `${containerRect.width / 2 - 50}px`; // Центр по X
-                disk.style.top = `${finalTop}px`;
-                disk.style.display = 'block';
+            
+            if (window.innerWidth <= 767) {
+                // Мобильная версия - диск внизу
+                const diskHeight = 80; // Высота диска на мобильных
+                const finalBottom = 20; // Отступ от низа
+                
+                disk.style.width = `${diskHeight}px`;
+                disk.style.height = `${diskHeight}px`;
+                
+                if (isInitial) {
+                    disk.style.transition = 'none';
+                    disk.style.left = `${containerRect.width / 2 - diskHeight/2}px`;
+                    disk.style.bottom = `${finalBottom}px`;
+                    disk.style.top = 'auto';
+                    disk.style.display = 'block';
+                } else {
+                    disk.style.transition = 'transform 1.5s cubic-bezier(0.22, 1, 0.36, 1)';
+                    disk.style.left = `${containerRect.width / 2 - diskHeight/2}px`;
+                    disk.style.bottom = `${finalBottom}px`;
+                    disk.style.top = 'auto';
+                    disk.style.display = 'block';
+                    disk.style.transform = 'translateY(150px)';
+                    
+                    setTimeout(() => {
+                        disk.style.transform = 'translateY(0)';
+                    }, 10);
+                }
             } else {
-                // При перемотке — появляется внизу (+100px от центра) и поднимается
-                disk.style.transition = 'transform 1.5s cubic-bezier(0.22, 1, 0.36, 1)';
-                disk.style.left = `${containerRect.width / 2 - 50}px`;
-                disk.style.top = `${finalTop}px`;
-                disk.style.display = 'block';
-                disk.style.transform = 'translateY(300px)'; // 100px ниже центра + 100px до финала
-        
-                // Запускаем анимацию подъёма
-                setTimeout(() => {
-                    disk.style.transform = 'translateY(0)';
-                }, 10);
+                // Десктоп версия - стандартное поведение
+                const centerY = containerRect.height / 2;
+                const finalTop = centerY - 100 - 50;
+                
+                disk.style.width = '100px';
+                disk.style.height = '100px';
+                
+                if (isInitial) {
+                    disk.style.transition = 'none';
+                    disk.style.left = `${containerRect.width / 2 - 50}px`;
+                    disk.style.top = `${finalTop}px`;
+                    disk.style.display = 'block';
+                } else {
+                    disk.style.transition = 'transform 1.5s cubic-bezier(0.22, 1, 0.36, 1)';
+                    disk.style.left = `${containerRect.width / 2 - 50}px`;
+                    disk.style.top = `${finalTop}px`;
+                    disk.style.display = 'block';
+                    disk.style.transform = 'translateY(-200px)';
+                    
+                    setTimeout(() => {
+                        disk.style.transform = 'translateY(0)';
+                    }, 10);
+                }
             }
         }
 
@@ -336,7 +374,10 @@ document.addEventListener('DOMContentLoaded', () => {
             
             track.style.transform = `translateX(${centerOffset - cardOffset}px)`;
             
-            setTimeout(updateDiskPosition, 500);
+            // Для мобильных - небольшая задержка перед анимацией диска
+            setTimeout(() => {
+                updateDiskPosition();
+            }, window.innerWidth <= 767 ? 100 : 500);
         }
 
         // Навигация по карусели
@@ -499,5 +540,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 backgroundMusic.volume = e.target.value;
             });
         }
+        window.addEventListener('resize', () => {
+            centerSelectedCard();
+            updateDiskPosition();
+            
+            // Обновляем отображение информации в зависимости от размера экрана
+            if (window.innerWidth < 768) {
+                document.getElementById('movie-details').innerHTML = '';
+                // Скрываем продавца при переходе на мобильный вид
+                const sellerContainer = document.getElementById('seller-container');
+                if (sellerContainer) sellerContainer.style.display = 'none';
+            } else {
+                const movie = MovieType[currentIndex];
+                document.getElementById('movie-details').innerHTML = `
+                    <p>${movie.year} · ${movie.director}</p>
+                    <p>${movie.genres.join(', ')}</p>
+                `;
+                // Показываем продавца при переходе на десктопный вид
+                const sellerContainer = document.getElementById('seller-container');
+                if (sellerContainer) sellerContainer.style.display = 'flex';
+            }
+        });
     }
 });

@@ -74,6 +74,9 @@ poseSound.volume = 0.5;
 
 // Инициализация продавца
 function initSeller() {
+    // Проверяем, является ли устройство мобильным
+    if (window.innerWidth <= 768) return;
+
     const sellerContainer = document.getElementById('seller-container');
     if (!sellerContainer) return;
 
@@ -95,11 +98,8 @@ function initSeller() {
 
     // Устанавливаем начальную позу
     updateSellerPose(0);
-
-    // Запускаем таймер для случайных фраз
     startSellerTimer();
 
-    // Добавляем обработчики
     document.querySelector('.seller-button')?.addEventListener('click', toggleSellerOptions);
     document.querySelectorAll('.seller-option').forEach(option => {
         option.addEventListener('click', handleSellerOption);
@@ -113,6 +113,7 @@ function initSeller() {
     });
 
     fetchWeather();
+
 
     window.addEventListener('resize', () => {
         const sellerImage = document.querySelector('.seller-image');

@@ -257,3 +257,8 @@ body, html {
         right: 5%;
     }
 }
+@media (max-width: 768px) {
+    #seller-container {
+        display: none !important;
+    }
+}
