@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Информация о фильме</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">    <link rel="stylesheet" href="css/light.css" id="light-theme">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/light.css" id="light-theme">
     <link rel="stylesheet" href="css/dark.css" id="dark-theme" disabled>
     <link rel="stylesheet" href="css/movie.css">
     <script src="js/movies.js" defer></script>
@@ -15,11 +16,14 @@
 <body>
     <div class="transition-overlay"></div>
     
-    <button class="back-button">←</button>
+    <div class="music-controls">
+        <button id="music-toggle">🔊</button>
+        <input type="range" id="volume-control" min="0" max="1" step="0.1" value="0.5">
+        <button class="back-button">← Назад</button>
+    </div>
     
     <div class="movie-container">
         <div class="movie-header">
-            <img id="movie-poster" class="movie-poster" src="" alt="Постер фильма">
             <div class="movie-info">
                 <h1 id="movie-title" class="movie-title"></h1>
                 <div id="movie-meta" class="movie-meta"></div>

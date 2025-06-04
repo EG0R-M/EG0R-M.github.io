@@ -1,0 +1,225 @@
+/* movie.css - Современный кинематографичный дизайн */
+.movie-poster-animate {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    margin-bottom: 20px;
+}
+
+body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    font-family: 'Pixelify Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+body.light-theme {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    color: #333;
+}
+
+.movie-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 20px 40px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+@media (min-width: 900px) {
+    .movie-container {
+        grid-template-columns: 300px 1fr;
+    }
+}
+
+.movie-poster {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.movie-poster:hover {
+    transform: scale(1.02);
+}
+
+.movie-header {
+    display: flex;
+    flex-direction: column;
+}
+
+.movie-title {
+    font-size: 3rem;
+    margin: 0 0 10px 0;
+    color: #4cc9f0;
+    text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+    line-height: 1.1;
+}
+
+.movie-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+}
+
+.movie-meta p {
+    margin: 0;
+    padding: 5px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+}
+
+body.light-theme .movie-meta p {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.movie-description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    max-width: 800px;
+    opacity: 0.9;
+}
+
+.ratings {
+    display: flex;
+    gap: 25px;
+    margin: 30px 0;
+}
+
+.rating-item {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 15px;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+}
+
+.rating-logo {
+    height: 25px;
+    margin-right: 10px;
+}
+
+/* Элементы управления */
+.music-controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.music-controls-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#music-toggle {
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+#music-toggle:hover {
+    background: rgba(0, 0, 0, 0.7);
+    transform: scale(1.1);
+}
+
+#volume-control {
+    width: 100px;
+    accent-color: #4cc9f0;
+}
+
+.back-button {
+    background: #4cc9f0;
+    border: none;
+    border-radius: 8px;
+    color: #1a1a2e;
+    padding: 10px 20px;
+    font-family: 'Pixelify Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.back-button:hover {
+    background: #3aa8d8;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(76, 201, 240, 0.4);
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.movie-container {
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    50% { transform: translateY(-50%) translateX(-10px); }
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    .movie-title {
+        font-size: 2rem;
+    }
+    
+    .movie-meta {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .movie-poster-animate {
+        width: 180px;
+        height: 270px;
+        right: 10px;
+    }
+    
+    .music-controls {
+        top: 10px;
+        right: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .movie-poster-animate {
+        width: 180px;
+        height: 270px;
+        margin: 0 auto 15px;
+    }
+}

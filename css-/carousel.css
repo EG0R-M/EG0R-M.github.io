@@ -1,0 +1,113 @@
+/* Контейнер карусели */
+.carousel-container {
+    font-family: 'Pixelify Sans', sans-serif;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    perspective: 1000px;
+    margin-top: -10px;
+}
+
+/* Дорожка карусели */
+.carousel-track {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    transition: transform 0.5s ease;
+    will-change: transform;
+    padding: 0 20%;
+}
+
+/* Карточки фильмов */
+.movie-card {
+    flex: 0 0 auto;
+    width: 120px;
+    height: 180px;
+    margin: 0 30px;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.movie-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Выбранная карточка */
+.movie-card.selected {
+    z-index: 3;
+    transform: scale(1.2);
+    box-shadow: 0 0 0 3px #4CAF50, 0 8px 25px rgba(0,0,0,0.5);
+}
+
+.disk {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-image: url('../images/disk.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 10;
+    pointer-events: none;
+    display: none;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+.disk img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.disk.visible {
+    display: block;
+    opacity: 1;
+}
+
+.carousel-frame {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+/* Кнопки навигации */
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: rgba(0,0,0,0.5);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 20;
+}
+
+.carousel-nav.prev { left: 10px; }
+.carousel-nav.next { right: 10px; }
+
+/* Информация о фильме */
+.movie-info {
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: rgb(56, 175, 0);
+    text-shadow: 0 0 5px rgb(82, 255, 82);
+    z-index: 5;
+}
+
+/* Запрет масштабирования */
+body {
+    touch-action: pan-x pan-y;
+    user-zoom: fixed;
+}
