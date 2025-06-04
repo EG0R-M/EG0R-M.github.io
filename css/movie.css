@@ -151,7 +151,7 @@ body {
     50% { transform: translateY(-10px); }
 }
 
-/* Десктопная версия */
+/* Десктопная версия с увеличенными размерами */
 @media (min-width: 768px) {
     .movie-content {
         flex-direction: row;
@@ -168,9 +168,54 @@ body {
     .info-container {
         height: 80vh;
         width: 60%;
+        gap: 30px;
     }
     
+    /* Увеличиваем название в 5 раз */
     .movie-title {
-        font-size: 2.2rem;
+        font-size: 5rem;
+        margin-bottom: 20px;
+    }
+    
+    .movie-meta {
+        font-size: 2rem;
+        gap: 20px;
+    }
+    
+    .movie-meta p {
+        padding: 15px 30px;
+    }
+    
+    .ratings {
+        gap: 20px;
+        margin: 15px 0;
+    }
+    
+    .rating-item {
+        padding: 15px 30px;
+        font-size: 2rem;
+    }
+    
+    .rating-logo {
+        height: 50px;
+        margin-right: 15px;
+    }
+    
+    .movie-description {
+        font-size: 2rem;
+        line-height: 1.3;
+    }
+    
+    /* Увеличиваем кнопку "Назад" */
+    .back-button {
+        font-size: 2rem;
+        padding: 10px 20px;
+    }
+}
+
+/* Оптимизация для очень больших экранов */
+@media (min-width: 1600px) {
+    .info-container {
+        justify-content: center;
     }
 }
