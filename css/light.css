@@ -32,70 +32,66 @@ body, html {
     z-index: 2;
 }
 
-/* Стили продавца для светлой темы */
+/* Новые стили продавца для светлой темы (правый нижний угол) */
 #seller-container {
     position: fixed;
-    bottom: 15%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 30%;
-    height: 40%;
+    bottom: 5%;
+    right: 5%;
+    width: 300px;
+    height: 400px;
     z-index: 3;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
+    align-items: flex-end;
 }
 
 .seller-image {
-    width: 100%;
-    height: 100%;
+    width: 200px;
+    height: 200px;
     background-image: url('../images/seller_day_1.png');
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: bottom center;
+    background-position: bottom right;
     transition: background-image 0.3s ease;
-}
-
-.seller-speech-bubble {
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: white;
-    color: #800020;
-    padding: 10px 15px;
-    border-radius: 20px;
-    max-width: 250px;
-    text-align: center;
-    font-size: 1rem;
-    opacity: 0;
-    transition: opacity 0.3s ease;
     margin-bottom: 10px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
-.seller-speech-bubble::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 10px;
-    border-style: solid;
-    border-color: white transparent transparent transparent;
+.seller-dialog-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+}
+
+.seller-dialog-frame {
+    display: none;
+    width: 280px;
+    background: url('../images/dialog_frame.png') no-repeat;
+    background-size: 100% 100%;
+    padding: 20px;
+    margin-bottom: 15px;
+    position: relative;
+    filter: drop-shadow(0 3px 5px rgba(0,0,0,0.3));
+}
+
+.seller-dialog-text {
+    font-family: 'Pixelify Sans', sans-serif;
+    color: #222;
+    font-size: 16px;
+    line-height: 1.4;
+    min-height: 60px;
 }
 
 .seller-button-container {
     position: relative;
-    margin-top: 10px;
 }
 
 .seller-button {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     cursor: pointer;
     transition: transform 0.3s ease;
+    filter: drop-shadow(0 3px 5px rgba(0,0,0,0.3));
 }
 
 .seller-button:hover {
@@ -105,8 +101,7 @@ body, html {
 .seller-options {
     position: absolute;
     bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 0;
     display: none;
     flex-direction: column;
     gap: 5px;
@@ -115,6 +110,7 @@ body, html {
     border-radius: 10px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
     z-index: 10;
+    border: 2px solid #800020;
 }
 
 .seller-option {
@@ -122,10 +118,12 @@ body, html {
     color: white;
     border: none;
     border-radius: 15px;
-    padding: 5px 10px;
+    padding: 8px 15px;
     font-family: 'Pixelify Sans', sans-serif;
+    font-size: 14px;
     cursor: pointer;
     transition: all 0.2s ease;
+    white-space: nowrap;
 }
 
 .seller-option:hover {
@@ -180,10 +178,10 @@ body, html {
     position: fixed;
     right: 20px;
     top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.8);
+    transform: translateY(-90%);
+    width: 60px;
+    height: 60px;
+    background: rgba(30, 30, 60, 0.8);
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -191,7 +189,20 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
+    font-size: 30px;
+    color: #4d4dff;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transform-origin: center;
+    scale: 1;
+}
+
+#theme-toggle:hover {
+    scale: 1.1;
+}
+
+#theme-toggle:active {
+    scale: 0.95;
 }
 
 /* Управление громкостью */

@@ -1,18 +1,32 @@
 // Фразы продавца
 const sellerPhrases = {
     greetings: [
-        "Неплохо у нас тут, да?",
         "Что-то интересует?",
         "Вам помочь?",
         "Добро пожаловать в нашу кинолавку!",
         "Какой фильм ищете сегодня?"
+    ],
+    search: [
+        "Вот что я нашёл:",
+        "По вашему запросу есть несколько вариантов:",
+        "Могу предложить эти фильмы:",
+        "Нашёл кое-что интересное:",
+        "Нашёл!",
+        "Отличный выбор!",
+        "Недавное его пересматривал, вам понравится!",
+        "Хорошо!"
     ],
     recommendations: [
         "Вы смотрели {movie}?",
         "Не хотите ознакомиться с фильмом {movie}?",
         "Очень рекомендую {movie} - отличный выбор!",
         "{movie} - просто шедевр, советую!",
-        "Как насчёт {movie}? Идеально для вечера!"
+        "Как насчёт {movie}? Идеально для вечера!",
+        "Я не мог оторвать глаз от {movie}",
+        "Посмотрите {movie}, хороший фильм",
+        "{movie} - фильм на Оскар",
+        "Как насчёт {movie}?",
+        "Вы слышали о {movie}?"
     ],
     weather: [
         "Сегодня на улице {weather} - самое время для кино!",
@@ -21,10 +35,15 @@ const sellerPhrases = {
     ],
     random: [
         "Знаете ли вы, что первый киносеанс состоялся в 1895 году?",
-        "У нас есть редкие коллекционные издания!",
+        "У нас есть редкие издания!",
+        "Вы хорошо выглядите",
         "Фильмы - это как книги, только с картинками и звуком",
         "Какой ваш любимый жанр?",
-        "У нас сегодня специальные предложения!"
+        "Сейчас бы на обед...",
+        "У нас сегодня специальные предложения!",
+        "Мы работаем круглосуточно, так что всегда можешь приходить",
+        "Неплохо у нас тут, да?",
+        "Как у вас дела?"
     ]
 };
 
@@ -58,12 +77,13 @@ function initSeller() {
     const sellerContainer = document.getElementById('seller-container');
     if (!sellerContainer) return;
 
-    // Создаем элементы для продавца
     sellerContainer.innerHTML = `
         <div class="seller-image"></div>
-        <div class="seller-speech-bubble"></div>
+        <div class="seller-dialog-frame">
+            <div class="seller-dialog-text"></div>
+        </div>
         <div class="seller-button-container">
-            <img src="images/seller_button.png" alt="Поговорить" class="seller-button">
+            <img src="images/told.png" alt="Поговорить" class="seller-button">
             <div class="seller-options">
                 <button class="seller-option" data-action="phrase">Фраза</button>
                 <button class="seller-option" data-action="recommend">Совет</button>
@@ -72,6 +92,7 @@ function initSeller() {
         </div>
     `;
 
+
     // Устанавливаем начальную позу
     updateSellerPose(0);
 
@@ -79,20 +100,18 @@ function initSeller() {
     startSellerTimer();
 
     // Добавляем обработчики
-    document.querySelector('.seller-button').addEventListener('click', toggleSellerOptions);
+    document.querySelector('.seller-button')?.addEventListener('click', toggleSellerOptions);
     document.querySelectorAll('.seller-option').forEach(option => {
         option.addEventListener('click', handleSellerOption);
     });
 
-    // Обработчик клика по фону
-    document.getElementById('background-layer').addEventListener('click', () => {
+    document.getElementById('background-layer')?.addEventListener('click', () => {
         if (isSpeaking) return;
         const greetings = sellerPhrases.greetings.slice(0, 3);
         const randomMessage = greetings[Math.floor(Math.random() * greetings.length)];
         showSellerMessage(randomMessage);
     });
 
-    // Получаем прогноз погоды
     fetchWeather();
 }
 
@@ -115,23 +134,34 @@ function showSellerMessage(message, duration = 3000) {
     if (isSpeaking) return;
     isSpeaking = true;
 
-    const speechBubble = document.querySelector('.seller-speech-bubble');
-    if (!speechBubble) return;
+    const dialogText = document.querySelector('.seller-dialog-text');
+    const dialogFrame = document.querySelector('.seller-dialog-frame');
+    if (!dialogText || !dialogFrame) return;
 
-    // Выбираем случайную позу (кроме текущей)
+    // Выбираем случайную позу
     const currentPose = Math.floor(Math.random() * sellerPoses[currentTheme].length);
     updateSellerPose(currentPose);
 
-    // Показываем сообщение
-    speechBubble.textContent = message;
-    speechBubble.style.opacity = '1';
-
-    // Через duration миллисекунд скрываем сообщение и возвращаем стандартную позу
-    setTimeout(() => {
-        speechBubble.style.opacity = '0';
-        updateSellerPose(0);
-        isSpeaking = false;
-    }, duration);
+    // Анимация появления текста
+    dialogFrame.style.display = 'block';
+    dialogText.textContent = '';
+    
+    let i = 0;
+    const typingSpeed = 30;
+    const typingEffect = setInterval(() => {
+        if (i < message.length) {
+            dialogText.textContent += message.charAt(i);
+            i++;
+        } else {
+            clearInterval(typingEffect);
+            
+            setTimeout(() => {
+                dialogFrame.style.display = 'none';
+                updateSellerPose(0);
+                isSpeaking = false;
+            }, duration);
+        }
+    }, typingSpeed);
 }
 
 // Переключение опций продавца
