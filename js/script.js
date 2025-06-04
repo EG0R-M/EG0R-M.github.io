@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let isDarkTheme = localStorage.getItem('theme') === 'dark';
     let currentIndex = 0;
     let cards = [];
-    let backgroundMusic = null;
-    let isMusicOn = true;
+    let isMusicOn = localStorage.getItem('musicEnabled') === 'true' || false;
+    let backgroundMusic = new Audio();
 
     // Функция воспроизведения случайного звука кота
     function playRandomCatSound() {
@@ -24,23 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const audio = new Audio(randomSound);
         audio.volume = 0.5;
         audio.play().catch(e => console.error("Ошибка воспроизведения:", e));
-    }
-
-    // Инициализация фоновой музыки
-    function initBackgroundMusic(track) {
-        if (backgroundMusic) {
-            backgroundMusic.pause();
-            backgroundMusic = null;
-        }
-
-        backgroundMusic = new Audio(track);
-        backgroundMusic.volume = document.getElementById('volume-slider')?.value || 0.5;
-        backgroundMusic.loop = true;
-        backgroundMusic.muted = !isMusicOn;
-
-        setTimeout(() => {
-            backgroundMusic.play().catch(e => console.log("Автовоспроизведение заблокировано:", e));
-        }, 1000);
     }
 
     // Поиск фильмов
@@ -112,9 +95,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function toggleTheme() {
         isDarkTheme = !isDarkTheme;
         localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
+        applyTheme();
+    
         
         // Анимация кнопки
-        const themeToggle = document.getElementById('theme-toggle-btn');
+        const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) {
             themeToggle.style.transform = 'scale(0.9)';
             setTimeout(() => {
@@ -133,26 +118,65 @@ document.addEventListener('DOMContentLoaded', () => {
     function applyTheme() {
         const lightTheme = document.getElementById('light-theme');
         const darkTheme = document.getElementById('dark-theme');
-        const themeToggle = document.getElementById('theme-toggle-btn');
+        const themeToggle = document.getElementById('theme-toggle');
         const cat = document.getElementById('cat');
-
+    
         if (isDarkTheme) {
             lightTheme.disabled = true;
             darkTheme.disabled = false;
-            if (themeToggle) themeToggle.innerHTML = '<img src="images/theme_toggle.png" alt="🌙">';
+            if (themeToggle) themeToggle.innerHTML = '<img src="images/icons/theme_toggle.png" alt="🌙">';
             if (cat) cat.style.display = 'none';
-            initBackgroundMusic(soundConfig.nightTheme);
         } else {
             lightTheme.disabled = false;
             darkTheme.disabled = true;
-            if (themeToggle) themeToggle.innerHTML = '<img src="images/theme_toggle.png" alt="☀️">';
+            if (themeToggle) themeToggle.innerHTML = '<img src="images/icons/theme_toggle.png" alt="☀️">';
             if (cat) cat.style.display = 'block';
-            initBackgroundMusic(soundConfig.dayTheme);
         }
-
-        // Обновляем продавца, если он есть
+    
         if (typeof updateSellerTheme === 'function') {
             updateSellerTheme(isDarkTheme ? 'dark' : 'light');
+        }
+        if (isMusicOn && backgroundMusic.src) {
+            const newTrack = isDarkTheme ? soundConfig.nightTheme : soundConfig.dayTheme;
+            if (backgroundMusic.src !== newTrack) {
+                backgroundMusic.src = newTrack;
+                backgroundMusic.play().catch(e => console.log("Ошибка воспроизведения:", e));
+            }
+        }
+    }
+
+    /* Музыка темы */
+    function toggleMusic() {
+        isMusicOn = !isMusicOn;
+        localStorage.setItem('musicEnabled', isMusicOn);
+        
+        const musicToggle = document.getElementById('music-toggle-btn');
+        if (musicToggle) {
+            musicToggle.textContent = isMusicOn ? '🔊' : '🔇';
+        }
+    
+        if (isMusicOn) {
+            const track = isDarkTheme ? soundConfig.nightTheme : soundConfig.dayTheme;
+            if (backgroundMusic.src && backgroundMusic.src !== track) {
+                // Плавное затухание перед сменой трека
+                const fadeOut = setInterval(() => {
+                    backgroundMusic.volume = Math.max(0, backgroundMusic.volume - 0.1);
+                    if (backgroundMusic.volume <= 0) {
+                        clearInterval(fadeOut);
+                        backgroundMusic.src = track;
+                        backgroundMusic.loop = true;
+                        backgroundMusic.volume = document.getElementById('volume-slider')?.value || 0.5;
+                        backgroundMusic.play().catch(e => console.log("Автовоспроизведение заблокировано:", e));
+                    }
+                }, 50);
+            } else {
+                backgroundMusic.src = track;
+                backgroundMusic.loop = true;
+                backgroundMusic.volume = document.getElementById('volume-slider')?.value || 0.5;
+                backgroundMusic.play().catch(e => console.log("Автовоспроизведение заблокировано:", e));
+            }
+        } else {
+            backgroundMusic.pause();
         }
     }
 
@@ -164,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const nextBtn = document.querySelector('.carousel-nav.next');
         const movieTitle = document.getElementById('movie-title');
         const movieDetails = document.getElementById('movie-details');
-        const themeToggle = document.getElementById('theme-toggle-btn');
+        const themeToggle = document.getElementById('theme-toggle');
         const musicToggle = document.getElementById('music-toggle-btn');
         const volumeControl = document.getElementById('volume-slider');
 
@@ -176,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Создаем элемент диска
         const disk = document.createElement('div');
         disk.className = 'disk';
-        disk.innerHTML = '<img src="images/disk.gif" alt="Disk" onerror="this.style.display=\'none\'">';
+        disk.innerHTML = '<img src="images/icons/disk.gif" alt="Disk" onerror="this.style.display=\'none\'">';
         document.querySelector('.carousel-container').appendChild(disk);
 
         // Обработка клика по карточке
@@ -339,16 +363,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (cat) cat.addEventListener('click', playRandomCatSound);
         
         if (musicToggle) {
-            musicToggle.addEventListener('click', () => {
-                isMusicOn = !isMusicOn;
-                musicToggle.textContent = isMusicOn ? '🔊' : '🔇';
-                if (backgroundMusic) backgroundMusic.muted = !isMusicOn;
-            });
+            musicToggle.addEventListener('click', toggleMusic);
         }
 
         if (volumeControl) {
             volumeControl.addEventListener('input', (e) => {
-                if (backgroundMusic) backgroundMusic.volume = e.target.value;
+                backgroundMusic.volume = e.target.value;
+                if (isMusicOn && backgroundMusic.paused) {
+                    backgroundMusic.play().catch(e => console.log("Ошибка воспроизведения:", e));
+                }
             });
         }
 
@@ -466,14 +489,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // Инициализация музыки
-        initBackgroundMusic(isDarkTheme ? soundConfig.nightTheme : soundConfig.dayTheme);
-        
         if (musicToggle) {
-            musicToggle.addEventListener('click', () => {
-                isMusicOn = !isMusicOn;
-                musicToggle.textContent = isMusicOn ? '🔊' : '🔇';
-                if (backgroundMusic) backgroundMusic.muted = !isMusicOn;
-            });
+            musicToggle.textContent = isMusicOn ? '🔊' : '🔇'; // Устанавливаем начальное состояние
+            musicToggle.addEventListener('click', toggleMusic);
         }
         
         if (volumeControl && backgroundMusic) {

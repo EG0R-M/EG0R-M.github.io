@@ -22,76 +22,132 @@ body, html {
 }
 
 #background-layer {
-    background-image: url('../images/2.jpg');
+    background-image: url('../images/background/night.png');
     z-index: 1;
-    filter: brightness(0.7); /* Затемняем фон */
+    filter: brightness(0.7);
 }
 
 #table-layer {
-    background-image: url('../images/2.2.png');
+    background-image: url('../images/background/night_table.jpg');
     z-index: 2;
 }
 
-/* Стили продавца для темной темы */
+/* Стили продавца */
 #seller-container {
     position: fixed;
-    bottom: 5%;
-    right: 5%;
-    width: 300px;
-    height: 400px;
-    z-index: 3;
+    bottom: 0 !important;
+    right: 12%;
+    width: 800px;
+    height: 800px;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
 }
 
+.seller-dialog-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+}
+
 .seller-image {
-    width: 200px;
-    height: 200px;
-    background-image: url('../images/seller_night_1.png');
+    width: 800px;
+    height: 800px;
+    
     background-size: contain;
     background-repeat: no-repeat;
     background-position: bottom right;
     transition: background-image 0.3s ease;
-    margin-bottom: 10px;
+    margin-bottom: 0;
 }
 
 .seller-dialog-frame {
     display: none;
+    bottom: 120px;
+    right: 120px;
+    z-index: 3;
     width: 280px;
-    background: url('../images/dialog_frame_dark.png') no-repeat;
+    background: url('../images/icons/dialog_frame.png') no-repeat;
     background-size: 100% 100%;
     padding: 20px;
     margin-bottom: 15px;
-    position: relative;
+    position: absolute;
     filter: drop-shadow(0 0 10px rgba(77, 77, 255, 0.5));
 }
 
 .seller-dialog-text {
     font-family: 'Pixelify Sans', sans-serif;
-    color: #eee;
+    color: #020038;
     font-size: 16px;
     line-height: 1.4;
     min-height: 60px;
     text-shadow: 0 0 3px #000;
 }
 
+.seller-button-container {
+    position: absolute;
+    bottom: 240px;
+    right: 10px;
+}
+
 .seller-button {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
     filter: drop-shadow(0 0 8px rgba(77, 77, 255, 0.7));
 }
 
+.seller-button:hover {
+    transform: scale(1.1);
+}
+
 .seller-options {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    gap: 5px;
     background-color: #1a1a2e;
-    border: 2px solid #4d4dff;
+    padding: 10px;
+    border-radius: 10px;
     box-shadow: 0 0 15px rgba(77, 77, 255, 0.3);
+    z-index: 10;
+    border: 2px solid #4d4dff;
 }
 
 .seller-option {
     background-color: #4d4dff;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 8px 15px;
+    font-family: 'Pixelify Sans', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
 }
 
 .seller-option:hover {
     background-color: #3a3ac7;
+}
+
+/* Котик спит */
+#cat {
+    position: fixed;
+    bottom: 3%;
+    right: 20%;
+    width: 200px;
+    height: 200px;
+    background-image: url('../images/background/cat_night.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    z-index: 10;
 }
 
 /* Рамка карусели */
@@ -128,7 +184,6 @@ body, html {
     position: fixed;
     right: 20px;
     top: 50%;
-    transform: translateY(-50%);
     width: 60px;
     height: 60px;
     background: rgba(30, 30, 60, 0.8);
@@ -139,22 +194,24 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 30px;
-    color: #4d4dff;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    transform-origin: center;
-    scale: 1;
+    transform: translateY(-50%); /* Центрирование по вертикали */
+    transform-origin: center; /* Важно для анимации scale */
 }
 
 #theme-toggle:hover {
-    scale: 1.1;
+    transform: translateY(-50%) scale(1.1);
 }
 
 #theme-toggle:active {
-    scale: 0.95;
+    transform: translateY(-50%) scale(0.95);
 }
-/*----------------*/
+
+#theme-toggle img {
+    width: 40px;
+    height: 40px;
+}
 
 /* Управление громкостью */
 .music-controls {
@@ -184,4 +241,19 @@ body, html {
 .music-controls input[type="range"] {
     width: 100px;
     accent-color: #4d4dff;
+}
+
+@media (max-width: 1200px) {
+    #seller-container, .seller-image {
+        width: 500px;
+        height: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+    #seller-container, .seller-image {
+        width: 300px;
+        height: 300px;
+        right: 5%;
+    }
 }

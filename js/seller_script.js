@@ -50,18 +50,18 @@ const sellerPhrases = {
 // Позы продавца
 const sellerPoses = {
     light: [
-        'seller_day_1.png',
-        'seller_day_2.png',
-        'seller_day_3.png',
-        'seller_day_4.png',
-        'seller_day_5.png'
+        '../images/seller/seller_day_1.png',
+        '../images/seller/seller_day_2.png',
+        '../images/seller/seller_day_3.png',
+        '../images/seller/seller_day_4.png',
+        '../images/seller/seller_day_5.png'
     ],
     dark: [
-        'seller_night_1.png',
-        'seller_night_2.png',
-        'seller_night_3.png',
-        'seller_night_4.png',
-        'seller_night_5.png'
+        '../images/seller/seller_night_1.png',
+        '../images/seller/seller_night_2.png',
+        '../images/seller/seller_night_3.png',
+        '../images/seller/seller_night_4.png',
+        '../images/seller/seller_night_5.png'
     ]
 };
 
@@ -83,7 +83,7 @@ function initSeller() {
             <div class="seller-dialog-text"></div>
         </div>
         <div class="seller-button-container">
-            <img src="images/told.png" alt="Поговорить" class="seller-button">
+            <img src="images/icons/told.png" alt="Поговорить" class="seller-button">
             <div class="seller-options">
                 <button class="seller-option" data-action="phrase">Фраза</button>
                 <button class="seller-option" data-action="recommend">Совет</button>
@@ -113,6 +113,22 @@ function initSeller() {
     });
 
     fetchWeather();
+
+    window.addEventListener('resize', () => {
+        const sellerImage = document.querySelector('.seller-image');
+        if (!sellerImage) return;
+        
+        if (window.innerWidth <= 768) {
+            sellerImage.style.width = '300px';
+            sellerImage.style.height = '300px';
+        } else if (window.innerWidth <= 1200) {
+            sellerImage.style.width = '500px';
+            sellerImage.style.height = '500px';
+        } else {
+            sellerImage.style.width = '800px';
+            sellerImage.style.height = '800px';
+        }
+    });
 }
 
 // Обновление позы продавца
@@ -122,8 +138,25 @@ function updateSellerPose(poseIndex) {
 
     const poses = sellerPoses[currentTheme];
     if (poseIndex >= 0 && poseIndex < poses.length) {
-        sellerImage.style.backgroundImage = `url('images/${poses[poseIndex]}')`;
-        // Воспроизводим звук смены позы
+        // Принудительно устанавливаем размеры
+        sellerImage.style.cssText = `
+            width: 800px;
+            height: 800px;
+            background-image: url('images/${poses[poseIndex]}');
+            background-size: contain;
+            background-position: bottom right;
+        `;
+        
+        // Для мобильных версий
+        if (window.innerWidth <= 1200) {
+            sellerImage.style.width = '500px';
+            sellerImage.style.height = '500px';
+        }
+        if (window.innerWidth <= 768) {
+            sellerImage.style.width = '300px';
+            sellerImage.style.height = '300px';
+        }
+
         poseSound.currentTime = 0;
         poseSound.play().catch(e => console.log("Автовоспроизведение звука заблокировано"));
     }
@@ -226,6 +259,11 @@ async function fetchWeather() {
         console.error('Ошибка получения погоды:', error);
         weatherData = "отличная погода";
     }
+}
+
+function updateSellerTheme(theme) {
+    currentTheme = theme;
+    updateSellerPose(0); // Сброс к начальной позе с новым скином
 }
 
 // Инициализация при загрузке страницы

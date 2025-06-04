@@ -22,38 +22,38 @@ body, html {
 }
 
 #background-layer {
-    background-image: url('../images/1.jpg');
+    background-image: url('../images/background/day.jpg');
     z-index: 1;
     filter: brightness(1.1);
 }
 
 #table-layer {
-    background-image: url('../images/1.2.png');
+    background-image: url('../images/background/day_table.png');
     z-index: 2;
 }
 
 /* Новые стили продавца для светлой темы (правый нижний угол) */
 #seller-container {
     position: fixed;
-    bottom: 5%;
-    right: 5%;
-    width: 300px;
-    height: 400px;
-    z-index: 3;
+    bottom:  0 !important;
+    right: 12%;
+    width: 800px;
+    height: 800px;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
 }
 
 .seller-image {
-    width: 200px;
-    height: 200px;
-    background-image: url('../images/seller_day_1.png');
+    width: 800px;
+    height: 800px;
+    
     background-size: contain;
     background-repeat: no-repeat;
     background-position: bottom right;
     transition: background-image 0.3s ease;
-    margin-bottom: 10px;
+    margin-bottom: 0;
 }
 
 .seller-dialog-container {
@@ -65,14 +65,18 @@ body, html {
 
 .seller-dialog-frame {
     display: none;
+    bottom: 120px;
+    right: 120px;
+    z-index: 3;
     width: 280px;
-    background: url('../images/dialog_frame.png') no-repeat;
+    background: url('../images/icons/dialog_frame.png') no-repeat;
     background-size: 100% 100%;
     padding: 20px;
     margin-bottom: 15px;
-    position: relative;
+    position: absolute;
     filter: drop-shadow(0 3px 5px rgba(0,0,0,0.3));
 }
+    
 
 .seller-dialog-text {
     font-family: 'Pixelify Sans', sans-serif;
@@ -83,7 +87,9 @@ body, html {
 }
 
 .seller-button-container {
-    position: relative;
+    position: absolute;
+    bottom: 240px;
+    right: 10px;
 }
 
 .seller-button {
@@ -137,7 +143,7 @@ body, html {
     left: 20%;
     width: 200px;
     height: 200px;
-    background-image: url('../images/cat_day.gif');
+    background-image: url('../images/background/cat_day.gif');
     background-size: contain;
     background-repeat: no-repeat;
     cursor: pointer;
@@ -178,10 +184,9 @@ body, html {
     position: fixed;
     right: 20px;
     top: 50%;
-    transform: translateY(-90%);
     width: 60px;
     height: 60px;
-    background: rgba(30, 30, 60, 0.8);
+    background: rgba(255, 255, 255, 0.8);
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -189,20 +194,23 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 30px;
-    color: #4d4dff;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    transform-origin: center;
-    scale: 1;
+    transform: translateY(-50%); /* Центрирование по вертикали */
+    transform-origin: center; /* Важно для анимации scale */
 }
 
 #theme-toggle:hover {
-    scale: 1.1;
+    transform: translateY(-50%) scale(1.1);
 }
 
 #theme-toggle:active {
-    scale: 0.95;
+    transform: translateY(-50%) scale(0.95);
+}
+
+#theme-toggle img {
+    width: 40px;
+    height: 40px;
 }
 
 /* Управление громкостью */
@@ -233,4 +241,19 @@ body, html {
 .music-controls input[type="range"] {
     width: 100px;
     accent-color: #800020;
+}
+
+@media (max-width: 1200px) {
+    #seller-container, .seller-image {
+        width: 500px;
+        height: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+    #seller-container, .seller-image {
+        width: 300px;
+        height: 300px;
+        right: 5%;
+    }
 }
